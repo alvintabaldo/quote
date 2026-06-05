@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AltabWP — Quote Builder</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #0d0d0d;
+    --surface: #161616;
+    --surface2: #1e1e1e;
+    --border: #2a2a2a;
+    --accent: #c8f560;
+    --accent2: #5cf5c8;
+    --muted: #555;
+    --text: #f0f0f0;
+    --text2: #999;
+    --danger: #ff5f5f;
+    --radius: 10px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { font-size: 16px; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    min-height: 100vh;
+    padding: 2rem 1rem 4rem;
+  }
+
+  /* ── HEADER ── */
+  header {
+    max-width: 820px;
+    margin: 0 auto 3rem;
+    display: flex;
+    align-items: flex-end;
+    gap: 1.5rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 1.5rem;
+  }
+  .logo-mark {
+    width: 52px; height: 52px;
+    background: var(--accent);
+    border-radius: 8px;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+  }
+  .logo-mark span {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: #0d0d0d;
+    letter-spacing: -0.04em;
+  }
+  .header-text h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.55rem;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+  .header-text p {
+    color: var(--text2);
+    font-size: 0.78rem;
+    margin-top: 0.3rem;
+  }
+  .badge {
+    margin-left: auto;
+    background: #1a2500;
+    color: var(--accent);
+    border: 1px solid #3a5500;
+    border-radius: 4px;
+    font-size: 0.68rem;
+    padding: 0.3rem 0.6rem;
+    white-space: nowrap;
+    letter-spacing: 0.04em;
+  }
+
+  /* ── LAYOUT ── */
+  .container {
+    max-width: 820px;
+    margin: 0 auto;
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  /* ── CARD ── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.9rem 1.25rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface2);
+  }
+  .card-num {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.7rem;
+    color: var(--accent);
+    background: #1a2500;
+    border: 1px solid #3a5500;
+    border-radius: 3px;
+    padding: 0.15rem 0.45rem;
+    letter-spacing: 0.06em;
+  }
+  .card-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.02em;
+  }
+  .card-body { padding: 1.25rem; }
+
+  /* ── FORM ELEMENTS ── */
+  .field { margin-bottom: 1rem; }
+  .field:last-child { margin-bottom: 0; }
+
+  label {
+    display: block;
+    font-size: 0.72rem;
+    color: var(--text2);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+
+  input[type="text"], input[type="email"], textarea, select {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.85rem;
+    padding: 0.6rem 0.85rem;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  input[type="text"]:focus, input[type="email"]:focus,
+  textarea:focus, select:focus {
+    border-color: var(--accent);
+  }
+  textarea { resize: vertical; min-height: 70px; }
+
+  select option { background: #111; }
+
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  /* ── TIER SELECTOR ── */
+  .tier-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.6rem;
+  }
+  .tier-btn {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text2);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    padding: 0.6rem 0.4rem;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: center;
+    line-height: 1.5;
+  }
+  .tier-btn .tier-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.82rem;
+    color: var(--text);
+    display: block;
+    margin-bottom: 0.15rem;
+  }
+  .tier-btn .tier-price {
+    color: var(--accent2);
+    font-size: 0.75rem;
+  }
+  .tier-btn:hover { border-color: var(--muted); }
+  .tier-btn.active {
+    border-color: var(--accent);
+    background: #1a2500;
+    color: var(--text);
+  }
+  .tier-btn.active .tier-name { color: var(--accent); }
+  .tier-btn.none-btn { grid-column: 1 / -1; }
+
+  /* ── ADD-ONS ── */
+  .addon-grid {
+    display: grid;
+    gap: 0.45rem;
+  }
+  .addon-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.55rem 0.85rem;
+    cursor: pointer;
+    transition: border-color 0.15s;
+    user-select: none;
+  }
+  .addon-item:hover { border-color: var(--muted); }
+  .addon-item.selected { border-color: var(--accent2); background: #001a15; }
+  .addon-check {
+    width: 16px; height: 16px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    transition: all 0.15s;
+  }
+  .addon-item.selected .addon-check {
+    background: var(--accent2);
+    border-color: var(--accent2);
+  }
+  .addon-check::after {
+    content: '✓';
+    font-size: 0.65rem;
+    color: #0d0d0d;
+    display: none;
+    font-weight: 700;
+  }
+  .addon-item.selected .addon-check::after { display: block; }
+  .addon-label { flex: 1; font-size: 0.8rem; color: var(--text); }
+  .addon-desc { font-size: 0.7rem; color: var(--text2); display: block; }
+  .addon-price { font-size: 0.78rem; color: var(--accent2); flex-shrink: 0; }
+
+  /* ── QTY INPUT IN ADDON ── */
+  .addon-qty {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-left: 0.5rem;
+  }
+  .qty-btn {
+    width: 22px; height: 22px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    background: var(--surface2);
+    color: var(--text);
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    padding: 0;
+    line-height: 1;
+    transition: border-color 0.15s;
+  }
+  .qty-btn:hover { border-color: var(--accent2); }
+  .qty-val {
+    font-size: 0.78rem;
+    min-width: 28px;
+    text-align: center;
+    color: var(--text);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 0.15rem 0.3rem;
+  }
+
+  /* ── TOGGLE ── */
+  .toggle-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .toggle-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .toggle-row:first-child { padding-top: 0; }
+  .toggle-label { flex: 1; font-size: 0.82rem; }
+  .toggle-sub { font-size: 0.68rem; color: var(--text2); display: block; }
+  .toggle {
+    position: relative;
+    width: 38px; height: 20px;
+    flex-shrink: 0;
+  }
+  .toggle input { opacity: 0; width: 0; height: 0; }
+  .toggle-track {
+    position: absolute;
+    inset: 0;
+    background: var(--border);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .toggle input:checked + .toggle-track { background: var(--accent); }
+  .toggle-track::after {
+    content: '';
+    position: absolute;
+    left: 2px; top: 2px;
+    width: 16px; height: 16px;
+    background: #fff;
+    border-radius: 50%;
+    transition: transform 0.2s;
+  }
+  .toggle input:checked + .toggle-track::after { transform: translateX(18px); }
+
+  /* ── QUOTE SUMMARY ── */
+  .summary-card {
+    background: #101a00;
+    border: 1.5px solid #3a5500;
+    border-radius: var(--radius);
+    overflow: hidden;
+    position: sticky;
+    top: 1rem;
+  }
+  .summary-header {
+    background: #182300;
+    border-bottom: 1px solid #2a3d00;
+    padding: 0.9rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .summary-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.88rem;
+    color: var(--accent);
+  }
+  .summary-body { padding: 1.25rem; }
+
+  .client-preview {
+    font-size: 0.75rem;
+    color: var(--text2);
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #2a3d00;
+    min-height: 2.5rem;
+  }
+  .client-preview strong { color: var(--accent); display: block; font-size: 0.82rem; margin-bottom: 0.1rem; }
+
+  .line-items { list-style: none; margin-bottom: 1rem; }
+  .line-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    font-size: 0.78rem;
+    padding: 0.35rem 0;
+    border-bottom: 1px dashed #2a3d00;
+  }
+  .line-item:last-child { border-bottom: none; }
+  .li-name { color: var(--text2); flex: 1; }
+  .li-amount { color: var(--text); white-space: nowrap; }
+  .li-discount { color: var(--danger); font-size: 0.72rem; }
+  .li-savings { color: var(--accent); font-size: 0.72rem; }
+
+  .total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-top: 0.75rem;
+    border-top: 1.5px solid #3a5500;
+  }
+  .total-label {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.8rem;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .total-amount {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.6rem;
+    color: var(--accent);
+    letter-spacing: -0.03em;
+  }
+  .total-amount span { font-size: 0.9rem; font-weight: 600; margin-right: 2px; }
+
+  .deposit-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.72rem;
+    color: var(--text2);
+    margin-top: 0.4rem;
+  }
+  .deposit-row b { color: var(--accent2); }
+
+  .empty-state {
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-align: center;
+    padding: 1rem 0;
+    font-style: italic;
+  }
+
+  /* ── NOTES AREA ── */
+  .notes-section { font-size: 0.75rem; color: var(--text2); }
+  .notes-label { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.68rem; color: var(--accent); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.4rem; }
+
+  /* ── ACTIONS ── */
+  .action-btns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+    margin-top: 1rem;
+  }
+  .btn {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.78rem;
+    border-radius: 6px;
+    padding: 0.65rem 1rem;
+    cursor: pointer;
+    border: none;
+    letter-spacing: 0.04em;
+    transition: all 0.15s;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #0d0d0d;
+  }
+  .btn-primary:hover { filter: brightness(1.1); }
+  .btn-outline {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text2);
+  }
+  .btn-outline:hover { border-color: var(--text2); color: var(--text); }
+
+  /* ── SECTION DIVIDER ── */
+  .section-sep {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 0.5rem 0 1rem;
+  }
+  .section-sep span {
+    font-size: 0.68rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
+  .section-sep::before, .section-sep::after {
+    content: ''; flex: 1; height: 1px; background: var(--border);
+  }
+
+  /* ── GRID LAYOUT ── */
+  .main-grid {
+    max-width: 820px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 1.5rem;
+    align-items: start;
+  }
+  .form-col { display: grid; gap: 1.5rem; }
+
+  @media (max-width: 680px) {
+    .main-grid { grid-template-columns: 1fr; }
+    .summary-card { position: static; }
+    .tier-grid { grid-template-columns: 1fr 1fr; }
+    .field-row { grid-template-columns: 1fr; }
+  }
+
+  /* ── PRINT ── */
+  @media print {
+    body { background: #fff; color: #111; padding: 1rem; }
+    .no-print { display: none !important; }
+    .summary-card { position: static; background: #fff; border: 1px solid #ccc; }
+    .main-grid { grid-template-columns: 1fr; }
+    header { border-color: #ccc; }
+  }
+
+  /* ── TOAST ── */
+  #toast {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: var(--accent);
+    color: #0d0d0d;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.78rem;
+    padding: 0.65rem 1.2rem;
+    border-radius: 6px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.25s;
+    pointer-events: none;
+    z-index: 999;
+  }
+  #toast.show { opacity: 1; transform: translateY(0); }
+
+  /* ── MAINTENANCE ROW ── */
+  .maint-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.6rem;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-mark"><span>AW</span></div>
+  <div class="header-text">
+    <h1>AltabWP</h1>
+    <p>Quote Builder · altabwp.com</p>
+  </div>
+  <div class="badge no-print">INTERNAL TOOL</div>
+</header>
+
+<div class="main-grid">
+
+  <!-- ══ FORM COLUMN ══ -->
+  <div class="form-col">
+
+    <!-- Client Info -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-num">01</span>
+        <span class="card-title">Client Information</span>
+      </div>
+      <div class="card-body">
+        <div class="field-row">
+          <div class="field">
+            <label>Client Name</label>
+            <input type="text" id="clientName" placeholder="e.g. Acme Corp" oninput="update()" />
+          </div>
+          <div class="field">
+            <label>Email (optional)</label>
+            <input type="email" id="clientEmail" placeholder="client@email.com" oninput="update()" />
+          </div>
+        </div>
+        <div class="field">
+          <label>Project Name / Notes</label>
+          <input type="text" id="projectName" placeholder="e.g. New business site — lawn care" oninput="update()" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Website Build -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-num">02</span>
+        <span class="card-title">Website Build</span>
+      </div>
+      <div class="card-body">
+
+        <div class="section-sep"><span>Build Type</span></div>
+        <div class="field">
+          <label>Type</label>
+          <select id="buildType" onchange="onBuildTypeChange()">
+            <option value="none">— None —</option>
+            <option value="custom">Custom Design (Elementor)</option>
+            <option value="template">Template-Based (Elementor)</option>
+            <option value="woo">WooCommerce Store</option>
+          </select>
+        </div>
+
+        <div id="buildTierSection" style="display:none;">
+          <div class="section-sep"><span>Tier</span></div>
+          <div class="tier-grid" id="tierGrid"></div>
+
+          <div class="toggle-row" style="margin-top:1rem;">
+            <div class="toggle-label">
+              First 5 Clients Promo (–20%)
+              <span class="toggle-sub">In exchange for testimonial & portfolio feature</span>
+            </div>
+            <label class="toggle">
+              <input type="checkbox" id="promoToggle" onchange="update()" />
+              <span class="toggle-track"></span>
+            </label>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Maintenance -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-num">03</span>
+        <span class="card-title">Monthly Maintenance Plan</span>
+      </div>
+      <div class="card-body">
+        <div class="maint-grid" id="maintGrid">
+          <button class="tier-btn active none-btn" data-plan="none" onclick="selectMaint('none', this)">
+            <span class="tier-name">None</span>
+            <span class="tier-price">$0/mo</span>
+          </button>
+          <button class="tier-btn" data-plan="basic" onclick="selectMaint('basic', this)">
+            <span class="tier-name">Basic</span>
+            <span class="tier-price">$49/mo</span>
+          </button>
+          <button class="tier-btn" data-plan="standard" onclick="selectMaint('standard', this)">
+            <span class="tier-name">Standard</span>
+            <span class="tier-price">$89/mo</span>
+          </button>
+          <button class="tier-btn" data-plan="pro" onclick="selectMaint('pro', this)">
+            <span class="tier-name">Pro</span>
+            <span class="tier-price">$149/mo</span>
+          </button>
+        </div>
+        <div id="maintFreeNote" style="display:none;margin-top:0.75rem;font-size:0.72rem;color:var(--accent);background:#1a2500;border:1px solid #3a5500;border-radius:5px;padding:0.5rem 0.75rem;">
+          ✓ 1st month free — included with your website build
+        </div>
+      </div>
+    </div>
+
+    <!-- One-Time Services -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-num">04</span>
+        <span class="card-title">One-Time Services</span>
+      </div>
+      <div class="card-body">
+        <div class="addon-grid" id="oneTimeGrid"></div>
+      </div>
+    </div>
+
+    <!-- Add-Ons -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-num">05</span>
+        <span class="card-title">Optional Add-Ons</span>
+      </div>
+      <div class="card-body">
+        <div class="addon-grid" id="addonsGrid"></div>
+      </div>
+    </div>
+
+    <!-- Notes -->
+    <div class="card no-print">
+      <div class="card-header">
+        <span class="card-num">06</span>
+        <span class="card-title">Internal Notes</span>
+      </div>
+      <div class="card-body">
+        <div class="field">
+          <label>Notes for this quote</label>
+          <textarea id="quoteNotes" placeholder="Any scope notes, special conditions, or reminders…" oninput="update()"></textarea>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /form-col -->
+
+  <!-- ══ QUOTE SUMMARY ══ -->
+  <div class="summary-card">
+    <div class="summary-header">
+      <div class="summary-title">📋 Quote Summary</div>
+    </div>
+    <div class="summary-body">
+
+      <div class="client-preview" id="clientPreview">
+        <em>Client details will appear here…</em>
+      </div>
+
+      <ul class="line-items" id="lineItems">
+        <li class="empty-state">No items selected yet.</li>
+      </ul>
+
+      <div class="total-row">
+        <span class="total-label">Total</span>
+        <span class="total-amount" id="totalDisplay"><span>$</span>0</span>
+      </div>
+      <div class="deposit-row">
+        <span>50% Deposit</span>
+        <b id="depositDisplay">$0.00</b>
+      </div>
+      <div class="deposit-row" style="margin-top:0.2rem;">
+        <span>Balance on delivery</span>
+        <b id="balanceDisplay">$0.00</b>
+      </div>
+
+      <div class="action-btns no-print">
+        <button class="btn btn-primary" onclick="copyQuote()">Copy Quote</button>
+        <button class="btn btn-outline" onclick="window.print()">Print / PDF</button>
+      </div>
+      <div class="action-btns no-print" style="margin-top:0.5rem;">
+        <button class="btn btn-outline" style="grid-column:1/-1;" onclick="resetAll()">🔄 Reset</button>
+      </div>
+
+    </div>
+  </div><!-- /summary-card -->
+
+</div><!-- /main-grid -->
+
+<div id="toast">✓ Quote copied to clipboard!</div>
+
+<script>
+/* ═══════════════════════════════════════════
+   DATA
+═══════════════════════════════════════════ */
+const BUILDS = {
+  custom: {
+    label: 'Custom Design (Elementor)',
+    tiers: [
+      { id:'starter', name:'Starter', base:750, pages:'Up to 5', turnaround:'2–3 wks' },
+      { id:'business', name:'Business', base:950, pages:'Up to 7', turnaround:'3–4 wks' },
+      { id:'professional', name:'Professional', base:1300, pages:'Up to 10', turnaround:'4–5 wks' },
+    ]
+  },
+  template: {
+    label: 'Template-Based (Elementor)',
+    tiers: [
+      { id:'starter', name:'Starter', base:400, pages:'Up to 5', turnaround:'1 wk' },
+      { id:'business', name:'Business', base:580, pages:'Up to 7', turnaround:'1–2 wks' },
+      { id:'professional', name:'Professional', base:780, pages:'Up to 10', turnaround:'2 wks' },
+    ]
+  },
+  woo: {
+    label: 'WooCommerce Store',
+    tiers: [
+      { id:'starter', name:'Starter Store', base:1000, pages:'Up to 5 + 10 prods', turnaround:'2–3 wks' },
+      { id:'growth', name:'Growth Store', base:1500, pages:'Up to 7 + 30 prods', turnaround:'3–5 wks' },
+      { id:'pro', name:'Pro Store', base:2200, pages:'Up to 10 + 60 prods', turnaround:'5–6 wks' },
+    ]
+  }
+};
+
+const MAINT = {
+  none: { label:'None', monthly: 0 },
+  basic: { label:'Basic Maintenance', monthly: 49 },
+  standard: { label:'Standard Maintenance', monthly: 89 },
+  pro: { label:'Pro Maintenance', monthly: 149 },
+};
+
+const ONE_TIME = [
+  { id:'migration', label:'Website Migration', desc:'Full site transfer, DNS, SSL, 1-wk support', base:120, type:'starting' },
+  { id:'malware', label:'Malware Removal', desc:'Scan, clean, harden + 30-day re-fix guarantee', base:150, type:'starting' },
+  { id:'bugfix', label:'Bug Fixing', desc:'Per issue — diagnosis, fix, browser testing', base:60, type:'per issue' },
+  { id:'speed', label:'Speed Optimization', desc:'Full audit, caching, compression, before/after report', base:120, type:'starting' },
+  { id:'seo', label:'On-Page SEO', desc:'Up to 5 pages — title tags, metas, headings, schema, GSC setup', base:90, type:'starting' },
+  { id:'landing', label:'Landing Page Build', desc:'Single-page conversion design, 2 revisions', base:250, type:'starting' },
+  { id:'audit', label:'Website Audit', desc:'SEO, speed, security, mobile, broken links — PDF report', base:90, type:'starting' },
+];
+
+const ADDONS = [
+  { id:'extrapage', label:'Additional Page', desc:'Extra page added to any build package', price:50, unit:'per page', qty:true, qtyDefault:1 },
+  { id:'blogsetup', label:'Blog Setup', desc:'Blog page, categories, sample post, RSS feed', price:60, unit:'flat', qty:false },
+  { id:'blogpost', label:'Additional Blog Post', desc:'Upload & format post — client provides content & featured image', price:15, unit:'per post', qty:true, qtyDefault:1 },
+  { id:'extraprod', label:'Additional Product Setup', desc:'WooCommerce bulk product upload', price:3, unit:'per product', qty:true, qtyDefault:10 },
+  { id:'premiumPlugin', label:'Premium Plugin Setup', desc:'Installation, config & testing — client purchases the plugin license', price:45, unit:'per plugin', qty:true, qtyDefault:1 },
+  { id:'popup', label:'Pop-up / Lead Capture Setup', desc:'Exit-intent or timed pop-up with form', price:50, unit:'flat', qty:false },
+  { id:'whatsapp', label:'WhatsApp / Live Chat Integration', desc:'WhatsApp button or live chat widget', price:30, unit:'flat', qty:false },
+  { id:'multilingual', label:'Multilingual Setup (WPML/Polylang)', desc:'Basic bilingual site setup', price:80, unit:'flat', qty:false },
+  { id:'maintOnboarding', label:'Maintenance Plan Onboarding', desc:'For external sites — site review & ManageWP setup', price:30, unit:'flat', qty:false },
+];
+
+/* ═══════════════════════════════════════════
+   STATE
+═══════════════════════════════════════════ */
+let state = {
+  clientName: '',
+  clientEmail: '',
+  projectName: '',
+  buildType: 'none',
+  buildTier: null,
+  promo: false,
+  maintPlan: 'none',
+  maintFree: false,
+  oneTime: {},   // id -> qty (1 = selected)
+  addons: {},    // id -> qty
+  notes: '',
+};
+
+/* ═══════════════════════════════════════════
+   INIT — render static grids
+═══════════════════════════════════════════ */
+function initGrids() {
+  // One-time services
+  const ot = document.getElementById('oneTimeGrid');
+  ot.innerHTML = ONE_TIME.map(s => `
+    <div class="addon-item" id="ot-${s.id}" onclick="toggleOneTime('${s.id}')">
+      <div class="addon-check"></div>
+      <div class="addon-label">
+        ${s.label}
+        <span class="addon-desc">${s.desc}</span>
+      </div>
+      <span class="addon-price">from $${s.base}</span>
+    </div>
+  `).join('');
+
+  // Add-ons
+  const ag = document.getElementById('addonsGrid');
+  ag.innerHTML = ADDONS.map(a => `
+    <div class="addon-item" id="ao-${a.id}" onclick="toggleAddon('${a.id}', event)">
+      <div class="addon-check"></div>
+      <div class="addon-label">
+        ${a.label}
+        <span class="addon-desc">${a.desc}</span>
+      </div>
+      ${a.qty ? `
+        <div class="addon-qty" onclick="event.stopPropagation()">
+          <button class="qty-btn" onclick="changeQty('${a.id}',-1)">−</button>
+          <span class="qty-val" id="qty-${a.id}">1</span>
+          <button class="qty-btn" onclick="changeQty('${a.id}',1)">+</button>
+        </div>
+      ` : ''}
+      <span class="addon-price">$${a.price}${a.unit !== 'flat' ? ' '+a.unit : ''}</span>
+    </div>
+  `).join('');
+}
+
+/* ═══════════════════════════════════════════
+   BUILD TYPE CHANGE
+═══════════════════════════════════════════ */
+function onBuildTypeChange() {
+  const type = document.getElementById('buildType').value;
+  state.buildType = type;
+  state.buildTier = null;
+  state.promo = false;
+  document.getElementById('promoToggle').checked = false;
+
+  const tierSection = document.getElementById('buildTierSection');
+  const tierGrid = document.getElementById('tierGrid');
+
+  if (type === 'none') {
+    tierSection.style.display = 'none';
+    tierGrid.innerHTML = '';
+  } else {
+    tierSection.style.display = 'block';
+    const tiers = BUILDS[type].tiers;
+    tierGrid.innerHTML = tiers.map((t, i) => `
+      <button class="tier-btn" data-tier="${t.id}" onclick="selectTier('${t.id}', this)">
+        <span class="tier-name">${t.name}</span>
+        <span class="tier-price">$${t.base.toLocaleString()}</span>
+        <span style="font-size:0.65rem;color:var(--muted);display:block;margin-top:0.1rem;">${t.pages}</span>
+      </button>
+    `).join('') + `<button class="tier-btn none-btn" data-tier="none" onclick="selectTier(null, this)">
+        <span class="tier-name" style="color:var(--muted)">None / TBD</span>
+        <span class="tier-price" style="color:var(--muted)">—</span>
+      </button>`;
+    // auto-select first
+    const firstBtn = tierGrid.querySelector('.tier-btn');
+    firstBtn.classList.add('active');
+    state.buildTier = tiers[0].id;
+  }
+  update();
+}
+
+function selectTier(id, btn) {
+  document.querySelectorAll('#tierGrid .tier-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  state.buildTier = id;
+  update();
+}
+
+/* ═══════════════════════════════════════════
+   MAINTENANCE
+═══════════════════════════════════════════ */
+function selectMaint(plan, btn) {
+  document.querySelectorAll('#maintGrid .tier-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  state.maintPlan = plan;
+  update();
+}
+
+/* ═══════════════════════════════════════════
+   ONE-TIME SERVICES
+═══════════════════════════════════════════ */
+function toggleOneTime(id) {
+  const el = document.getElementById('ot-'+id);
+  if (state.oneTime[id]) {
+    delete state.oneTime[id];
+    el.classList.remove('selected');
+  } else {
+    state.oneTime[id] = 1;
+    el.classList.add('selected');
+  }
+  update();
+}
+
+/* ═══════════════════════════════════════════
+   ADD-ONS
+═══════════════════════════════════════════ */
+function toggleAddon(id, e) {
+  const el = document.getElementById('ao-'+id);
+  const addon = ADDONS.find(a => a.id === id);
+  if (state.addons[id] !== undefined) {
+    delete state.addons[id];
+    el.classList.remove('selected');
+  } else {
+    state.addons[id] = addon.qtyDefault || 1;
+    el.classList.add('selected');
+    if (addon.qty) {
+      document.getElementById('qty-'+id).textContent = state.addons[id];
+    }
+  }
+  update();
+}
+
+function changeQty(id, delta) {
+  if (state.addons[id] === undefined) return;
+  const addon = ADDONS.find(a => a.id === id);
+  let qty = (state.addons[id] || 1) + delta;
+  if (qty < 1) qty = 1;
+  state.addons[id] = qty;
+  document.getElementById('qty-'+id).textContent = qty;
+  update();
+}
+
+/* ═══════════════════════════════════════════
+   MAIN UPDATE
+═══════════════════════════════════════════ */
+function update() {
+  state.clientName = document.getElementById('clientName').value.trim();
+  state.clientEmail = document.getElementById('clientEmail').value.trim();
+  state.projectName = document.getElementById('projectName').value.trim();
+  state.promo = document.getElementById('promoToggle').checked;
+  state.notes = document.getElementById('quoteNotes').value.trim();
+
+  // Auto-derive: 1st month free if a build is selected
+  const hasBuild = state.buildType !== 'none' && state.buildTier;
+  state.maintFree = hasBuild;
+
+  // Show/hide the free month notice
+  const freeNote = document.getElementById('maintFreeNote');
+  if (freeNote) freeNote.style.display = (hasBuild && state.maintPlan !== 'none') ? 'block' : 'none';
+
+  // Client preview
+  const cp = document.getElementById('clientPreview');
+  if (state.clientName) {
+    cp.innerHTML = `<strong>${state.clientName}</strong>${state.clientEmail ? state.clientEmail + ' · ' : ''}${state.projectName || 'No project name'}`;
+  } else {
+    cp.innerHTML = '<em>Client details will appear here…</em>';
+  }
+
+  // Build line items
+  const items = [];
+
+  // ── Website Build
+  if (state.buildType !== 'none' && state.buildTier) {
+    const b = BUILDS[state.buildType];
+    const t = b.tiers.find(x => x.id === state.buildTier);
+    if (t) {
+      const base = t.base;
+      const disc = state.promo ? Math.round(base * 0.2) : 0;
+      const final = base - disc;
+      items.push({
+        name: `${b.label} — ${t.name}`,
+        sub: `${t.pages} · ${t.turnaround}`,
+        base,
+        discount: disc,
+        final,
+        recurring: false,
+        note: disc > 0 ? `–20% promo (–$${disc})` : null,
+      });
+    }
+  }
+
+  // ── Maintenance
+  if (state.maintPlan !== 'none') {
+    const m = MAINT[state.maintPlan];
+    const note = state.maintFree ? '1st month free' : null;
+    items.push({
+      name: m.label,
+      sub: 'Monthly · billed each month',
+      base: m.monthly,
+      discount: 0,
+      final: m.monthly,
+      recurring: true,
+      note,
+    });
+  }
+
+  // ── One-time services
+  for (const [id] of Object.entries(state.oneTime)) {
+    const s = ONE_TIME.find(x => x.id === id);
+    items.push({ name: s.label, sub: 'One-time · starting at', base: s.base, discount:0, final: s.base, recurring:false, note:null });
+  }
+
+  // ── Add-ons
+  for (const [id, qty] of Object.entries(state.addons)) {
+    const a = ADDONS.find(x => x.id === id);
+    const total = a.price * qty;
+    const sub = a.qty ? `×${qty} ${a.unit}` : a.unit;
+    items.push({ name: a.label, sub, base: total, discount:0, final:total, recurring:false, note:null });
+  }
+
+  // Render line items
+  const li = document.getElementById('lineItems');
+  if (items.length === 0) {
+    li.innerHTML = '<li class="empty-state">No items selected yet.</li>';
+  } else {
+    li.innerHTML = items.map(item => `
+      <li class="line-item">
+        <span class="li-name">
+          ${item.name}
+          ${item.sub ? `<span class="addon-desc">${item.sub}</span>` : ''}
+          ${item.note ? `<span class="li-savings">${item.note}</span>` : ''}
+        </span>
+        <span class="li-amount">${item.recurring ? '<span style="color:var(--text2);font-size:0.68rem;">mo/</span>' : ''}$${item.final.toLocaleString()}</span>
+      </li>
+    `).join('');
+  }
+
+  // ── Totals (one-time only for deposit)
+  const oneTimeTotal = items.filter(x => !x.recurring).reduce((s, x) => s + x.final, 0);
+  const recurringTotal = items.filter(x => x.recurring).reduce((s, x) => s + x.final, 0);
+
+  // Display
+  document.getElementById('totalDisplay').innerHTML =
+    `<span>$</span>${oneTimeTotal.toLocaleString()}` +
+    (recurringTotal > 0 ? `<span style="font-size:0.75rem;color:var(--accent2);display:block;font-weight:600;">+$${recurringTotal}/mo</span>` : '');
+
+  const deposit = oneTimeTotal / 2;
+  const balance = oneTimeTotal - deposit;
+  document.getElementById('depositDisplay').textContent = `$${deposit.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}`;
+  document.getElementById('balanceDisplay').textContent = `$${balance.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}`;
+}
+
+/* ═══════════════════════════════════════════
+   COPY QUOTE
+═══════════════════════════════════════════ */
+function copyQuote() {
+  const lines = [];
+  lines.push('════════════════════════════════');
+  lines.push('  AltabWP — Quote Summary');
+  lines.push('  altabwp.com');
+  lines.push('════════════════════════════════');
+  if (state.clientName) lines.push(`Client : ${state.clientName}`);
+  if (state.clientEmail) lines.push(`Email  : ${state.clientEmail}`);
+  if (state.projectName) lines.push(`Project: ${state.projectName}`);
+  lines.push('────────────────────────────────');
+
+  // Collect items again
+  const items = [];
+  if (state.buildType !== 'none' && state.buildTier) {
+    const b = BUILDS[state.buildType];
+    const t = b.tiers.find(x => x.id === state.buildTier);
+    if (t) {
+      const base = t.base;
+      const disc = state.promo ? Math.round(base * 0.2) : 0;
+      items.push({ name:`${b.label} — ${t.name}`, final: base - disc, recurring:false, disc });
+    }
+  }
+  if (state.maintPlan !== 'none') {
+    const m = MAINT[state.maintPlan];
+    items.push({ name: m.label+' (monthly)', final: m.monthly, recurring:true });
+  }
+  for (const [id] of Object.entries(state.oneTime)) {
+    const s = ONE_TIME.find(x => x.id === id);
+    items.push({ name: s.label+' (starting at)', final: s.base, recurring:false });
+  }
+  for (const [id, qty] of Object.entries(state.addons)) {
+    const a = ADDONS.find(x => x.id === id);
+    items.push({ name: a.label + (a.qty ? ` ×${qty}` : ''), final: a.price * qty, recurring:false });
+  }
+
+  items.forEach(it => {
+    const prefix = it.recurring ? '[MO] ' : '      ';
+    const line = `${prefix}${it.name.padEnd(36)} $${it.final.toLocaleString()}`;
+    lines.push(line);
+  });
+
+  const oneTimeTotal = items.filter(x=>!x.recurring).reduce((s,x)=>s+x.final,0);
+  const recurringTotal = items.filter(x=>x.recurring).reduce((s,x)=>s+x.final,0);
+
+  lines.push('────────────────────────────────');
+  lines.push(`TOTAL (one-time)  : $${oneTimeTotal.toLocaleString()}`);
+  if (recurringTotal > 0) lines.push(`MONTHLY           : $${recurringTotal}/mo`);
+  lines.push(`50% Deposit       : $${(oneTimeTotal/2).toFixed(2)}`);
+  lines.push(`Balance on deliv. : $${(oneTimeTotal/2).toFixed(2)}`);
+  if (state.notes) { lines.push('────────────────────────────────'); lines.push('Notes: '+state.notes); }
+  lines.push('════════════════════════════════');
+  lines.push('All prices in USD. Subject to final agreement.');
+
+  navigator.clipboard.writeText(lines.join('\n')).then(() => {
+    const t = document.getElementById('toast');
+    t.classList.add('show');
+    setTimeout(()=>t.classList.remove('show'), 2200);
+  });
+}
+
+/* ═══════════════════════════════════════════
+   RESET
+═══════════════════════════════════════════ */
+function resetAll() {
+  document.getElementById('clientName').value = '';
+  document.getElementById('clientEmail').value = '';
+  document.getElementById('projectName').value = '';
+  document.getElementById('buildType').value = 'none';
+  document.getElementById('promoToggle').checked = false;
+  document.getElementById('quoteNotes').value = '';
+  state.oneTime = {};
+  state.addons = {};
+  state.buildType = 'none';
+  state.buildTier = null;
+  state.maintPlan = 'none';
+  state.promo = false;
+  state.maintFree = false;
+
+  // reset maintenance buttons
+  document.querySelectorAll('#maintGrid .tier-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector('#maintGrid [data-plan="none"]').classList.add('active');
+
+  document.getElementById('buildTierSection').style.display = 'none';
+  document.getElementById('tierGrid').innerHTML = '';
+
+  document.querySelectorAll('.addon-item').forEach(el => el.classList.remove('selected'));
+  ADDONS.filter(a=>a.qty).forEach(a => {
+    const el = document.getElementById('qty-'+a.id);
+    if (el) el.textContent = a.qtyDefault || 1;
+  });
+
+  update();
+}
+
+/* ═══════════════════════════════════════════
+   BOOT
+═══════════════════════════════════════════ */
+initGrids();
+update();
+</script>
+
+</body>
+</html>
